@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: sovanra/jenkins-ui
+  tag: "2.1"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort                # Change to NodePort
+  port: 80                      # The port that the service will expose
+  targetPort: 3000             # Next.js usually runs on port 3000
+  nodePort: 30080              # Optional: Specify a NodePort (choose a port in the range 30000-32767)
+  
+ingress:
+  enabled: false                # Set to true if you plan to use an ingress controller
+
+serviceAccount:
+  create: true                  # Set to true to create a ServiceAccount
+  name: ""                      # Leave empty to auto-generate the name
+  automount: true               # Set to true if you want the token to be automatically mounted
+  annotations: {}               # You can specify any annotations if needed
+
+autoscaling:
+  enabled: false                # Set to true to enable HPA
+  minReplicas: 1                # Minimum number of replicas
+  maxReplicas: 5                # Maximum number of replicas
+  targetCPUUtilizationPercentage: 80 # Target CPU utilization percentage
+

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jenkins-ui.fullname" . }}
+  labels:
+    app: {{ include "jenkins-ui.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "jenkins-ui.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "jenkins-ui.name" . }}
+    spec:
+      containers:
+        - name: jenkins-ui
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+
